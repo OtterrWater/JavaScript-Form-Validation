@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Form Validation</title>
+        <!--CSS CODE HERE-->
+        <style>
+            .bgpink	{ background-color: pink;}
+            .bglightblue	{ background-color: lightblue;}
+
+            body {
+                background-color: lightblue;
+                color: #182b2b;
+                font-family: "Comic Sans MS", "Comic Sans";
+                font-size: 18px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-style: dashed;
+                border-width: thick;
+                border-color: #f6a1ba;
+            }
+
+            table, th, td {
+                border:1px solid lightblue;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                background-color: #FCF3CF;
+            }
+
+            input, textarea {
+                font-size: 18px;
+                border: none;
+                border-radius: 10px;
+                padding: 7px 15px;
+            }
+
+            #button {
+            font-family: "Comic Sans MS", "Comic Sans";
+            background-color: #d59388;
+            border: none;
+            border-radius: 10px;
+            padding: 7px 15px;
+            float: right;
+            }
+
+            img {
+                top: 0;
+                width: 350px;
+                height: 750px;
+            }
+        </style>
+        
+        <!--JavaScript CODE HERE-->
+        <script>
+            var wordCount = 0;
+            function buttonClicked(){
+                const nums = ["1","2","3","4","5","6","7","8","9","0"];
+                const lowCases = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+                const upCases = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+                //USERNAME CHECK
+                var resultUsername = document.getElementById("resultUsername");
+                var username = document.getElementById("username").value;
+                
+                //checking empty
+                var sawNotEmptyAtUsername = false;
+                if(username !== ""){
+                    sawNotEmptyAtUsername = true;
+                }
+
+                
+                //checking random symbols
+                //going through Ascii(search online for chart)
+                var sawNotRandomSymbolAtUsername = true;
+                for (let i = 0; i < username.length; i++){
+                    const randomSymbol = username.charCodeAt(i);
+                    if ((randomSymbol >= 33 && randomSymbol <= 47) || (randomSymbol >= 58 && randomSymbol <= 64) || (randomSymbol >= 94 && randomSymbol <= 96) || (randomSymbol >= 123 && randomSymbol <= 126)) {
+                        sawNotRandomSymbolAtUsername = false;
+                    }
+                }
+
+                //checking numbers
+                var sawNotNumbersAtUsername = true;
+                for (var i=0; i<nums.length;i++){
+                    var number = nums[i];
+                    if (username.indexOf(number) >= 0){
+                        sawNotNumbersAtUsername = false;
+                    }
+                }
+
+                //checking uppercase
+                var sawNotUppercaseAtUsername = true;
+                for (var i = 0; i < lowCases.length; i++){
+                    var upperCases = upCases[i];
+                    if (username.indexOf(upperCases) !== -1) {
+                        sawNotUppercaseAtUsername = false;
+                    }
+                }
+
+                //USERNAME error messages
+                var sawUsername = false;
+                if(sawNotEmptyAtUsername && sawNotNumbersAtUsername && sawNotUppercaseAtUsername && sawNotRandomSymbolAtUsername){
+                    resultUsername.innerHTML = "";
+                    sawUsername = true;
+                }else if(!sawNotEmptyAtUsername){
+                    resultUsername.innerHTML = "Please Enter a Username";
+                }else if(!sawNotRandomSymbolAtUsername){
+                    resultUsername.innerHTML = "Username does not allow Special Characters";
+                }else if(!sawNotNumbersAtUsername){
+                    resultUsername.innerHTML = "Username does not allow Numbers";
+                }else if(!sawNotUppercaseAtUsername){
+                    resultUsername.innerHTML = "Username does not allow UpperCases";
+                }
+
+                //PASSWORD CHECK
+                var resultPassword = document.getElementById("resultPassword");
+                var password = document.getElementById("password").value;
+
+                var sawNotEmptyAtPassword = false;
+                if(password !== ""){
+                    sawNotEmptyAtPassword = true;
+                }
+
+                //PASSWORD check nums
+                var sawNumAtPassword = false;
+                for (var i=0; i<nums.length;i++){
+                    var number = nums[i];
+                    if (password.indexOf(number) !== -1){
+                        sawNumAtPassword = true;
+                    }
+                }
+
+                //checking random symbols
+                //going through Ascii(search online for chart)
+                var sawNotRandomSymbolAtPassword = true;
+                for (let i = 0; i < password.length; i++){
+                    const randomSymbol = password.charCodeAt(i);
+                    if ((randomSymbol >= 33 && randomSymbol <= 47) || (randomSymbol >= 58 && randomSymbol <= 64) || (randomSymbol >= 94 && randomSymbol <= 96) || (randomSymbol >= 123 && randomSymbol <= 126)) {
+                        sawNotRandomSymbolAtPassword = false;
+                    }
+                }
+                
+                //checking lowercase
+                var sawLowerCaseAtPassword = false;
+                for (var i = 0; i < lowCases.length; i++) {
+                    var lowerCases = lowCases[i];
+                    if (password.indexOf(lowerCases) !== -1) {
+                        sawLowerCaseAtPassword = true;
+                    }
+                }
+
+                //checking uppercase
+                var sawUpperCaseAtPassword = false;
+                for (var i = 0; i < upCases.length; i++) {
+                    var upperCases = upCases[i];
+                    if (password.indexOf(upperCases) !== -1) {
+                        sawUpperCaseAtPassword = true;
+                    }
+                }
+
+                var sawPassword = false;
+                if(sawNotEmptyAtPassword && sawNumAtPassword && sawLowerCaseAtPassword && sawUpperCaseAtPassword && sawNotRandomSymbolAtPassword){
+                    resultPassword.innerHTML = "";
+                    sawPassword = true;
+                }else if(!sawNotEmptyAtPassword){
+                    resultPassword.innerHTML = "Please Enter a Password";
+                }else if(!sawNotRandomSymbolAtPassword){
+                    resultPassword.innerHTML = "Password does not allow Special Characters";
+                }else if(!sawNumAtPassword){
+                    resultPassword.innerHTML = "Please use at least one Number in Password";
+                }else if(!sawLowerCaseAtPassword){
+                    resultPassword.innerHTML = "Please use at least one Lowercases in Password";
+                }else if(!sawUpperCaseAtPassword){
+                    resultPassword.innerHTML = "Please use at least one Uppercases in Password";
+                }
+
+                //STUDENT NUMBER CHECK
+                var resultStudentNum = document.getElementById("resultStudentNum");
+                var studentNum = document.getElementById("studentNum").value;
+                
+                //check empty
+                var sawNotEmptyAtStudentNum = false;
+                if(studentNum !== ""){
+                    sawNotEmptyAtStudentNum = true;
+                }
+
+                //check for nums
+                var sawNumAtStudentNum = false;
+                for (var i=0; i<nums.length;i++){
+                    var number = nums[i];
+                    if (studentNum.indexOf(number) !== -1){
+                        sawNumAtStudentNum = true;
+                    }
+                }
+
+                //check for 9
+                var sawNineAtStudentNum = false;
+                if(studentNum.length == 9){
+                    sawNineAtStudentNum = true;
+                }
+
+                var sawStudentNum = false;
+                if(sawNotEmptyAtStudentNum && sawNumAtStudentNum && sawNineAtStudentNum){
+                    resultStudentNum.innerHTML = "";
+                    sawStudentNum = true;
+                }else if(!sawNotEmptyAtStudentNum){
+                    resultStudentNum.innerHTML = "Please Enter a Student Number";
+                }else if(!sawNumAtStudentNum){
+                    resultStudentNum.innerHTML = "Please Only Enter Numbers in Student Number";
+                }else if(!sawNineAtStudentNum){
+                    resultStudentNum.innerHTML = "Please Enter Nine Numbers in Student Number";
+                }
+
+                //START SEMESTER & YEAR
+                var resultSemesterYear = document.getElementById("resultSemesterYear");
+                var semesterYear = document.getElementById("semesterYear").value.toLowerCase();
+                var semesterParts = semesterYear.split(" ");
+                
+                //checking empty
+                var sawNotEmptyAtSemesterYear = false;
+                if(semesterYear !== ""){
+                    sawNotEmptyAtSemesterYear = true;
+                }
+
+                //check semester season
+                var sawSemesterSeason = false;
+                if(semesterParts[0] == "fall" || semesterParts[0] == "winter" || semesterParts[0] == "spring" || semesterParts[0] == "summer"){
+                    sawSemesterSeason = true;
+                }
+
+                //check semester year
+                var sawSemesterYear = false;
+                if(semesterParts[1] == 2023){
+                    if(semesterParts[0] == "spring" || semesterParts[0] == "summer"){
+                        sawSemesterYear = true;
+                    }
+                }else if(semesterParts[1] >= 1000 && semesterParts[1] <= 2022){
+                    sawSemesterYear = true;
+                }
+                
+                var sawSemester = false;
+                if(sawNotEmptyAtSemesterYear && sawSemesterSeason && sawSemesterYear){
+                    resultSemesterYear.innerHTML = "";
+                    sawSemester = true;
+                }else if(!sawNotEmptyAtSemesterYear){
+                    resultSemesterYear.innerHTML = "Please Enter a Semester & Year";
+                }else if(!sawSemesterSeason){
+                    resultSemesterYear.innerHTML = "Please Enter an accurate season(spring, summer, fall, or winter) in Semester & Year";
+                }else if(!sawSemesterYear){
+                    resultSemesterYear.innerHTML = "Please Enter an accurate Year in Semester & Year";
+                }
+
+                //MESSAGE CHECK
+                var resultTextArea = document.getElementById("resultTextArea");
+                var sawMessage = false;
+                if(wordCount <= 25){
+                    resultTextArea.innerHTML = "";
+                    sawMessage = true;
+                }else{
+                    resultTextArea.innerHTML = "Please Insert only 25 or less words in the Message Box";
+                }
+
+                //FINAL RESULT SUCCESS OR FAILURE
+                var theBody = document.getElementById("theBody");
+                var resultFinal = document.getElementById("resultFinal");
+                if(sawUsername && sawPassword && sawStudentNum && sawSemester && sawMessage){
+                    theBody.setAttribute("class", "bglightblue");
+                    resultFinal.innerHTML = "SUCCESS :)"
+                }else{
+                    theBody.setAttribute("class", "bgpink");
+                    resultFinal.innerHTML = "FAILURE :("
+                }
+            }
+
+            // TEXT AREA
+            function updateWordCount() {
+                var countTextArea = document.getElementById("countTextArea");
+                var textArea = document.getElementById("textArea").value;
+                var words = textArea.trim().split(" ");
+                wordCount = words.length;
+
+                if (textArea === ""){
+                    wordCount = 0;
+                }
+
+                countTextArea.innerHTML = "Message: " + wordCount;
+                if(wordCount >= 25){
+                    var textArea = document.getElementById("textArea");
+                    textArea.disabled = true;//DISABLES ENTIRE TEXT AREA
+                }
+            }
+
+            function start(){
+                document.getElementById("button").addEventListener("click", buttonClicked);
+                document.getElementById("textArea").addEventListener("input", updateWordCount);
+                //want to update it every time a value of the element changes
+                //instead of committing values like space
+            }
+
+            window.addEventListener("load", start);
+        </script>
+    </head>
+
+    <body id="theBody">
+        <table>
+            <tr>
+                <th colspan="5"><h1>Application Form</h1></th>
+            </tr>
+            <tr>
+                <td rowspan="2"><img src="https://m.media-amazon.com/images/I/411e82I0RmS._AC_UF1000,1000_QL80_.jpg"></td>
+                <td rowspan="2"><img src="https://i.pinimg.com/originals/65/d6/d2/65d6d29e48c8b8ccefe247fa71d4d703.jpg"></td>
+                <td style="padding-left: 100px; padding-right: 100px;">
+                    <form method = "get">
+                        <label for="username">Username:</label>
+                        <br><input type="text" id="username" name="username"/>
+            
+                        <br><label for="password">Password:</label>
+                        <br><input type="password" id="password" name="password"/>
+            
+                        <br><label for="studentNum">Student Number:</label>
+                        <br><input type="text" id="studentNum" name="studentNum"/>
+            
+                        <br><label for="semesterYear">Semester & Year:<br>(e.g. summer 2015)</label>
+                        <br><input type="text" id="semesterYear" name="semesterYear"/>
+            
+                        <br><label id="countTextArea" for="textArea">Message: 0</label>
+                        <br><textarea type="textarea" id="textArea" name="textArea"></textarea>
+            
+                        <br><input type="button" id="button" value="Submit">
+                    </form>
+                </td>
+                <td rowspan="2"><img src="https://w0.peakpx.com/wallpaper/309/755/HD-wallpaper-cinnamon-hello-kitty-sanrio-uwu.jpg"></td>
+                <td rowspan="2"><img src="https://m.media-amazon.com/images/I/411e82I0RmS._AC_UF1000,1000_QL80_.jpg"></td>
+            </tr>
+            <tr>
+                <td style="padding-left: 20px; padding-right: 20px; padding-bottom: 50px; height:250px;">
+                    <div id="resultFinal"></div>
+                    <div id="resultUsername"></div>
+                    <div id="resultPassword"></div>
+                    <div id="resultStudentNum"></div>
+                    <div id="resultSemesterYear"></div>
+                    <div id="resultTextArea"></div>
+                </td>
+            </tr>
+          </table>
+    </body>
+</html>
